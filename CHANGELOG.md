@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.2
+
+- Fix publish workflow (remove nonexistent test step)
+
 ## 0.1.1
 
 - Re-release for PyPI publishing
