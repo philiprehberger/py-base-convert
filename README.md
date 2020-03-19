@@ -1,5 +1,9 @@
 # philiprehberger-base-convert
 
+[![Tests](https://github.com/philiprehberger/py-base-convert/actions/workflows/publish.yml/badge.svg)](https://github.com/philiprehberger/py-base-convert/actions/workflows/publish.yml)
+[![PyPI version](https://img.shields.io/pypi/v/philiprehberger-base-convert.svg)](https://pypi.org/project/philiprehberger-base-convert/)
+[![License](https://img.shields.io/github/license/philiprehberger/py-base-convert)](LICENSE)
+
 Convert numbers between any base (2-62) with human-friendly APIs.
 
 ## Installation
