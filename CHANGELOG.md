@@ -1,4 +1,11 @@
 # Changelog
+
+## 0.2.0 (2026-03-27)
+
+- Add `BaseCodec.encode_bytes()` and `BaseCodec.decode_bytes()` for binary data encoding
+- Add issue templates, PR template, and Dependabot config
+- Add full badge set and Support section to README
+
 ## 0.1.8
 
 - Trim keywords to match pyproject template guide

@@ -2,7 +2,11 @@
 
 [![Tests](https://github.com/philiprehberger/py-base-convert/actions/workflows/publish.yml/badge.svg)](https://github.com/philiprehberger/py-base-convert/actions/workflows/publish.yml)
 [![PyPI version](https://img.shields.io/pypi/v/philiprehberger-base-convert.svg)](https://pypi.org/project/philiprehberger-base-convert/)
+[![GitHub release](https://img.shields.io/github/v/release/philiprehberger/py-base-convert)](https://github.com/philiprehberger/py-base-convert/releases)
+[![Last updated](https://img.shields.io/github/last-commit/philiprehberger/py-base-convert)](https://github.com/philiprehberger/py-base-convert/commits/main)
 [![License](https://img.shields.io/github/license/philiprehberger/py-base-convert)](LICENSE)
+[![Bug Reports](https://img.shields.io/github/issues/philiprehberger/py-base-convert/bug)](https://github.com/philiprehberger/py-base-convert/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
+[![Feature Requests](https://img.shields.io/github/issues/philiprehberger/py-base-convert/enhancement)](https://github.com/philiprehberger/py-base-convert/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement)
 [![Sponsor](https://img.shields.io/badge/sponsor-GitHub%20Sponsors-ec6cb9)](https://github.com/sponsors/philiprehberger)
 
 Convert numbers between any base (2-62) with human-friendly APIs.
@@ -42,6 +46,27 @@ base36.encode(123456789)       # "21i3v9"
 base16.encode(255)             # "ff"
 ```
 
+### Bytes Encoding
+
+Encode arbitrary bytes (UUIDs, hashes, binary data) to compact base-N strings:
+
+```python
+from philiprehberger_base_convert import base62
+
+# Encode bytes to base62
+data = b"\x00\x01\x02\xff"
+encoded = base62.encode_bytes(data)
+
+# Decode back to bytes
+decoded = base62.decode_bytes(encoded)
+assert decoded == data
+
+# Encode a UUID to a compact string
+import uuid
+uid = uuid.uuid4().bytes
+short_id = base62.encode_bytes(uid)
+```
+
 ### Custom Alphabet
 
 ```python
@@ -57,21 +82,22 @@ codec.encode(42)   # "GCAC"
 codec.decode("GCAC")  # 42
 ```
 
-## API Reference
+## API
 
 | Function / Class | Description |
-|---|---|
+|------------------|-------------|
 | `to_base(number, base, *, alphabet="")` | Convert int to string in given base (2-62) |
 | `from_base(value, base, *, alphabet="")` | Convert string in given base back to int |
 | `BaseCodec(base, *, alphabet="")` | Reusable encoder/decoder for a fixed base |
 | `BaseCodec.encode(number)` | Encode int to string |
 | `BaseCodec.decode(value)` | Decode string to int |
+| `BaseCodec.encode_bytes(data)` | Encode bytes to a base-N string (preserves leading zero bytes) |
+| `BaseCodec.decode_bytes(value)` | Decode a base-N string back to bytes |
 | `base16` | Pre-built codec for base 16 |
 | `base32` | Pre-built codec for base 32 |
 | `base36` | Pre-built codec for base 36 |
 | `base58` | Pre-built codec for base 58 (Bitcoin alphabet) |
 | `base62` | Pre-built codec for base 62 |
-
 
 ## Development
 
@@ -80,6 +106,13 @@ pip install -e .
 python -m pytest tests/ -v
 ```
 
+## Support
+
+If you find this package useful, consider giving it a star on GitHub — it helps motivate continued maintenance and development.
+
+[![LinkedIn](https://img.shields.io/badge/Philip%20Rehberger-LinkedIn-0A66C2?logo=linkedin)](https://www.linkedin.com/in/philiprehberger)
+[![More packages](https://img.shields.io/badge/more-open%20source%20packages-blue)](https://philiprehberger.com/open-source-packages)
+
 ## License
 
-MIT
+[MIT](LICENSE)
