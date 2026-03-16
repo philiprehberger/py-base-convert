@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.1.6
+
+- Add basic import test
+
 ## 0.1.5
 
 - Add Development section to README

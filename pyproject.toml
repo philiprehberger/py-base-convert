@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "philiprehberger-base-convert"
-version = "0.1.5"
+version = "0.1.6"
 description = "Convert numbers between any base (2-62) with human-friendly APIs"
 readme = "README.md"
 license = "MIT"
