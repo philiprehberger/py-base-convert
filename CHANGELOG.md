@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.5
+
+- Add Development section to README
+- Add wheel build target to pyproject.toml
+
 ## 0.1.2
 
 - Fix publish workflow (remove nonexistent test step)

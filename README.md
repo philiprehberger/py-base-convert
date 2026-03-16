@@ -71,6 +71,14 @@ codec.decode("GCAC")  # 42
 | `base58` | Pre-built codec for base 58 (Bitcoin alphabet) |
 | `base62` | Pre-built codec for base 62 |
 
+
+## Development
+
+```bash
+pip install -e .
+python -m pytest tests/ -v
+```
+
 ## License
 
 MIT
