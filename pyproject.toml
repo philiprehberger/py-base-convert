@@ -4,13 +4,13 @@ build-backend = "hatchling.build"
 
 [project]
 name = "philiprehberger-base-convert"
-version = "0.1.7"
+version = "0.1.8"
 description = "Convert numbers between any base (2-62) with human-friendly APIs"
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.10"
 authors = [{ name = "Philip Rehberger" }]
-keywords = ["base", "convert", "encode", "base62", "base58", "base36"]
+keywords = ["convert", "encode", "base62", "base58", "base36"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
