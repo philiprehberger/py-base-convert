@@ -124,6 +124,68 @@ class BaseCodec:
         """Decode a string back to an integer."""
         return from_base(value, self._base, alphabet=self._alphabet)
 
+    def encode_bytes(self, data: bytes) -> str:
+        """Convert arbitrary bytes to a base-N encoded string.
+
+        Treats the bytes as a big-endian unsigned integer and encodes
+        using this codec's alphabet. Leading zero bytes are preserved
+        by prepending the alphabet's zero character.
+
+        Args:
+            data: Bytes to encode.
+
+        Returns:
+            Encoded string.
+        """
+        # Count leading zero bytes
+        leading_zeros = 0
+        for byte in data:
+            if byte == 0:
+                leading_zeros += 1
+            else:
+                break
+
+        if not data or leading_zeros == len(data):
+            return self._alphabet[0] * max(leading_zeros, 1)
+
+        # Convert bytes to integer (big-endian)
+        number = int.from_bytes(data, byteorder="big")
+        encoded = self.encode(number)
+
+        # Prepend zero characters for leading zero bytes
+        return self._alphabet[0] * leading_zeros + encoded
+
+    def decode_bytes(self, value: str) -> bytes:
+        """Decode a base-N encoded string back to bytes.
+
+        Reverses :meth:`encode_bytes`. Leading zero characters in the
+        string are converted to leading null bytes.
+
+        Args:
+            value: Encoded string.
+
+        Returns:
+            Decoded bytes.
+        """
+        zero_char = self._alphabet[0]
+
+        # Count leading zero characters
+        leading_zeros = 0
+        for ch in value:
+            if ch == zero_char:
+                leading_zeros += 1
+            else:
+                break
+
+        if leading_zeros == len(value):
+            return b"\x00" * leading_zeros
+
+        number = self.decode(value.lstrip(zero_char))
+        byte_length = (number.bit_length() + 7) // 8
+        result = number.to_bytes(byte_length, byteorder="big")
+
+        return b"\x00" * leading_zeros + result
+
     def __repr__(self) -> str:
         return f"BaseCodec(base={self._base})"
 
