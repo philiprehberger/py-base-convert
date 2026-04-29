@@ -77,14 +77,26 @@ codec.encode(42)   # "GCAC"
 codec.decode("GCAC")  # 42
 ```
 
+### Fixed-width output
+
+Pass `min_length` to left-pad the encoded string with the alphabet's zero character. Useful for fixed-width identifiers:
+
+```python
+from philiprehberger_base_convert import to_base, base62
+
+to_base(5, 16, min_length=4)        # "0005"
+base62.encode(0, min_length=8)      # "00000000"
+base62.encode(123, min_length=6)    # zero-padded base62
+```
+
 ## API
 
 | Function / Class | Description |
 |------------------|-------------|
-| `to_base(number, base, *, alphabet="")` | Convert int to string in given base (2-62) |
+| `to_base(number, base, *, alphabet="", min_length=0)` | Convert int to string in given base (2-62); `min_length` left-pads with zero char |
 | `from_base(value, base, *, alphabet="")` | Convert string in given base back to int |
 | `BaseCodec(base, *, alphabet="")` | Reusable encoder/decoder for a fixed base |
-| `BaseCodec.encode(number)` | Encode int to string |
+| `BaseCodec.encode(number, *, min_length=0)` | Encode int to string with optional left-padding |
 | `BaseCodec.decode(value)` | Decode string to int |
 | `BaseCodec.encode_bytes(data)` | Encode bytes to a base-N string (preserves leading zero bytes) |
 | `BaseCodec.decode_bytes(value)` | Decode a base-N string back to bytes |

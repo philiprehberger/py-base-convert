@@ -32,13 +32,16 @@ def _resolve_alphabet(base: int, alphabet: str) -> str:
     return _DEFAULT_ALPHABET[:base]
 
 
-def to_base(number: int, base: int, *, alphabet: str = "") -> str:
+def to_base(number: int, base: int, *, alphabet: str = "", min_length: int = 0) -> str:
     """Convert a non-negative integer to a string in the given base (2-62).
 
     Args:
         number: Non-negative integer to convert.
         base: Target base (2-62, or any length if custom alphabet is provided).
         alphabet: Optional custom alphabet. Length must equal *base*.
+        min_length: Minimum output length — if the encoded number is shorter,
+            the result is left-padded with the alphabet's zero character
+            (i.e. the first character of the alphabet).
 
     Returns:
         String representation in the target base.
@@ -52,14 +55,18 @@ def to_base(number: int, base: int, *, alphabet: str = "") -> str:
         raise ValueError(f"Number must be non-negative, got {number}")
 
     if number == 0:
-        return alpha[0]
+        result = alpha[0]
+    else:
+        digits: list[str] = []
+        n = number
+        while n:
+            n, remainder = divmod(n, base)
+            digits.append(alpha[remainder])
+        result = "".join(reversed(digits))
 
-    digits: list[str] = []
-    while number:
-        number, remainder = divmod(number, base)
-        digits.append(alpha[remainder])
-
-    return "".join(reversed(digits))
+    if min_length > len(result):
+        result = alpha[0] * (min_length - len(result)) + result
+    return result
 
 
 def from_base(value: str, base: int, *, alphabet: str = "") -> int:
@@ -116,9 +123,16 @@ class BaseCodec:
         """The alphabet used by this codec."""
         return self._alphabet
 
-    def encode(self, number: int) -> str:
-        """Encode a non-negative integer to a string."""
-        return to_base(number, self._base, alphabet=self._alphabet)
+    def encode(self, number: int, *, min_length: int = 0) -> str:
+        """Encode a non-negative integer to a string.
+
+        Args:
+            number: Non-negative integer to encode.
+            min_length: Minimum output length — if the encoded value is
+                shorter, the result is left-padded with the codec's zero
+                character.
+        """
+        return to_base(number, self._base, alphabet=self._alphabet, min_length=min_length)
 
     def decode(self, value: str) -> int:
         """Decode a string back to an integer."""

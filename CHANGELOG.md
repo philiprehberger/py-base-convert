@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.3.0 (2026-04-28)
+
+- Add `min_length` keyword argument to `to_base()` and `BaseCodec.encode()` — left-pads output with the alphabet's zero character to reach a minimum width (useful for fixed-width identifiers)
+- Replace import-only test with comprehensive test suite covering all public APIs
+- Fix `pyproject.toml` description to end with a period (matches README)
+- Reformat malformed CHANGELOG heading from earlier release
+
 ## 0.2.1 (2026-03-31)
 
 - Standardize README to 3-badge format with emoji Support section
@@ -15,7 +22,9 @@
 
 - Trim keywords to match pyproject template guide
 
-## 0.1.7- Add pytest and mypy tool configuration to pyproject.toml
+## 0.1.7
+
+- Add pytest and mypy tool configuration to pyproject.toml
 
 ## 0.1.6
 
