@@ -150,3 +150,30 @@ def test_to_base_min_length_with_custom_alphabet_uses_first_char() -> None:
 def test_min_length_round_trip_decodes_correctly() -> None:
     encoded = base62.encode(42, min_length=10)
     assert base62.decode(encoded) == 42
+
+
+# bytes_to_base / base_to_bytes convenience wrappers
+
+
+def test_bytes_to_base_round_trip() -> None:
+    from philiprehberger_base_convert import bytes_to_base, base_to_bytes
+
+    payload = b"hello\x00world"
+    encoded = bytes_to_base(payload, 62)
+    assert base_to_bytes(encoded, 62) == payload
+
+
+def test_bytes_to_base_preserves_leading_nulls() -> None:
+    from philiprehberger_base_convert import bytes_to_base, base_to_bytes
+
+    payload = b"\x00\x00\x01"
+    encoded = bytes_to_base(payload, 62)
+    assert base_to_bytes(encoded, 62) == payload
+
+
+def test_bytes_to_base_with_custom_alphabet() -> None:
+    from philiprehberger_base_convert import bytes_to_base, base_to_bytes
+
+    custom = "0123456789ABCDEF"
+    encoded = bytes_to_base(b"\xab\xcd", 16, alphabet=custom)
+    assert base_to_bytes(encoded, 16, alphabet=custom) == b"\xab\xcd"

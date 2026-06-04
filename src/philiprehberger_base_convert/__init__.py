@@ -3,6 +3,8 @@ from __future__ import annotations
 __all__ = [
     "to_base",
     "from_base",
+    "bytes_to_base",
+    "base_to_bytes",
     "BaseCodec",
     "base16",
     "base32",
@@ -210,3 +212,38 @@ base32 = BaseCodec(32)
 base36 = BaseCodec(36)
 base58 = BaseCodec(58, alphabet=_BASE58_ALPHABET)
 base62 = BaseCodec(62)
+
+
+def bytes_to_base(data: bytes, base: int, *, alphabet: str = "") -> str:
+    """Encode arbitrary bytes to a base-N string.
+
+    Convenience wrapper around :meth:`BaseCodec.encode_bytes` for one-off
+    conversions where instantiating a codec adds noise. Leading null bytes
+    are preserved by prepending the alphabet's zero character.
+
+    Args:
+        data: Bytes to encode.
+        base: Target base (2-62, or any length if custom *alphabet* is given).
+        alphabet: Optional custom alphabet. Length must equal *base*.
+
+    Returns:
+        Encoded string.
+    """
+    return BaseCodec(base, alphabet=alphabet).encode_bytes(data)
+
+
+def base_to_bytes(value: str, base: int, *, alphabet: str = "") -> bytes:
+    """Decode a base-N string back to bytes.
+
+    Inverse of :func:`bytes_to_base`. Leading zero characters in *value*
+    decode to leading null bytes.
+
+    Args:
+        value: Encoded string.
+        base: Source base (2-62, or any length if custom *alphabet* is given).
+        alphabet: Optional custom alphabet. Length must equal *base*.
+
+    Returns:
+        Decoded bytes.
+    """
+    return BaseCodec(base, alphabet=alphabet).decode_bytes(value)

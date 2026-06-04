@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.4.0 (2026-06-04)
+
+- Add top-level `bytes_to_base(data, base, *, alphabet="")` and `base_to_bytes(value, base, *, alphabet="")` convenience wrappers around `BaseCodec.encode_bytes` / `decode_bytes` for one-off bytes conversions without instantiating a codec
+- Add `package-card.webp` to README
+
 ## 0.3.0 (2026-04-28)
 
 - Add `min_length` keyword argument to `to_base()` and `BaseCodec.encode()` — left-pads output with the alphabet's zero character to reach a minimum width (useful for fixed-width identifiers)

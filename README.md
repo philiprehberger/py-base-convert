@@ -4,6 +4,8 @@
 [![PyPI version](https://img.shields.io/pypi/v/philiprehberger-base-convert.svg)](https://pypi.org/project/philiprehberger-base-convert/)
 [![Last updated](https://img.shields.io/github/last-commit/philiprehberger/py-base-convert)](https://github.com/philiprehberger/py-base-convert/commits/main)
 
+![philiprehberger-base-convert](https://raw.githubusercontent.com/philiprehberger/py-base-convert/main/package-card.webp)
+
 Convert numbers between any base (2-62) with human-friendly APIs.
 
 ## Installation
@@ -62,6 +64,16 @@ uid = uuid.uuid4().bytes
 short_id = base62.encode_bytes(uid)
 ```
 
+For one-off bytes conversions without instantiating a codec, use the
+top-level convenience wrappers:
+
+```python
+from philiprehberger_base_convert import bytes_to_base, base_to_bytes
+
+token = bytes_to_base(b"\x00\xff\xab", 62)
+base_to_bytes(token, 62)  # b"\x00\xff\xab"
+```
+
 ### Custom Alphabet
 
 ```python
@@ -100,6 +112,8 @@ base62.encode(123, min_length=6)    # zero-padded base62
 | `BaseCodec.decode(value)` | Decode string to int |
 | `BaseCodec.encode_bytes(data)` | Encode bytes to a base-N string (preserves leading zero bytes) |
 | `BaseCodec.decode_bytes(value)` | Decode a base-N string back to bytes |
+| `bytes_to_base(data, base, *, alphabet="")` | Convenience wrapper around `BaseCodec.encode_bytes` |
+| `base_to_bytes(value, base, *, alphabet="")` | Convenience wrapper around `BaseCodec.decode_bytes` |
 | `base16` | Pre-built codec for base 16 |
 | `base32` | Pre-built codec for base 32 |
 | `base36` | Pre-built codec for base 36 |
